@@ -22,7 +22,7 @@ export default class DisplayRecords extends Component {
         Axios.post("http://localhost:8000/place/delete/"+id)
         .then(res=>alert(res.data))
         .catch(Err=> alert(Err));
-        
+
         Axios.get("http://localhost:8000/place/getplace/")
         .then((res) => {
             console.log(res.data);
