@@ -1,0 +1,36 @@
+.FullDescriptionMain{
+    min-height: 800px;
+    height: auto;
+    width: 100%;
+    /* border: 1px solid red; */
+    padding: 3%;
+}
+.descriptionHeading{
+   color: #212529!important
+}
+.descriptionParagraph{
+    color:#6c757d!important;
+    text-align: justify;
+    font-weight: 100;
+    font-size: 20px;
+}
+.descriptionFirstPAragraph{
+    color:#6c757d!important
+}
+/*Floating Back-To-Top Button*/
+.myBtn {
+    position: fixed;
+    bottom: 20px;
+    float: right;
+    right: 18.5%;
+    left: 90.25%;
+    max-width: 50px;
+    font-size: 12px;
+    padding: 1%;
+    border-radius: 4px;
+
+}
+/*On Hover Color Change*/
+.myBtn:hover {
+    background-color: #323232!important;
+}

@@ -1,0 +1,24 @@
+.mainSidebar{
+    min-height: 700px;
+    height: 100%;
+    width: 25%;
+    /* border: 1px solid green; */
+    float: right;
+    background-color: #323232!important;
+    color:  rgba(255,255,255,.55);
+    font-size: 20px;
+}
+.UlSidebar{
+    list-style: none;
+    padding: 0;
+}
+.LiSidebar{
+    padding: 1% 5%;
+}
+.LinkSidebar{
+    text-decoration: none;
+    color:  rgba(255,255,255,.55);
+}
+.LinkSidebar:hover{
+    color: #fff;
+}

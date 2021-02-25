@@ -1,0 +1,16 @@
+.mainInformation{
+    min-height: 700px;
+    height: 100%;
+    width: 75%;
+    /* border: 1px solid green; */
+    float: left;
+    background-color:white ;
+    padding: 2%;
+}
+.paragraphInformation{
+    color: #6c757d!important;
+    text-align: justify;
+}
+.InformationHeading{
+    color: #212529!important;;
+}

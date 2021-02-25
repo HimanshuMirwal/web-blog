@@ -1,0 +1,31 @@
+.MainAdminLogin{
+    background-color: #323232!important;
+    background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
+    padding: 15%;
+    height: auto;
+    width: 100%;
+}
+.FormDivAdminLogin{
+    height: auto;
+    border: 1px solid #fff;
+    color: #fff;
+    margin: auto auto auto 5%;
+    padding: 10%;
+}
+.LogoDivAdmin{
+    height: 150px;
+    width: 150px;
+    border: 1px solid white;
+    border-radius: 100%;
+    background: rgba(255, 255, 255, 0.158);
+    margin: auto;
+    text-align: center;
+
+}
+.DivFormAdminLogin{
+    height: auto;
+    width: 100%;
+    padding: 2% 11%;
+    /* border: 1px solid; */
+    margin-top: 7%;
+}
