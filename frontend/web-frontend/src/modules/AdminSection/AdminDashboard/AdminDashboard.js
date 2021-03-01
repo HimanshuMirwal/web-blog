@@ -18,12 +18,15 @@ export default class AdminDashboard extends Component {
             MainTitleArray: [],
             SubTitleArray: [],
             selectArraySubTitle: [],
-            AdminDashboardAuth:Auth
+            AdminDashboardAuth:Auth,
+            displayRecord:true,
+            AddRecord:false
         }
         this.onChangeSubTitle = this.onChangeSubTitle.bind(this);
         this.OnClickLogout = this.OnClickLogout.bind(this);
         this.OnClickToAddTitleData = this.OnClickToAddTitleData.bind(this);
-
+        this.displayEditDisplayRecord = this.displayEditDisplayRecord.bind(this);
+        this.displayAddRecord = this.displayAddRecord.bind(this);
     }
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleUnload);
@@ -79,23 +82,55 @@ export default class AdminDashboard extends Component {
       OnClickToAddTitleData(){
         
       }
+      displayAddRecord(){
+        this.setState({
+            displayRecord:false,
+            AddRecord:true
+        })
+      }
+      displayEditDisplayRecord(){
+        this.setState({
+            displayRecord:true,
+            AddRecord:false
+        })
+      }
     render() {
         if(this.state.AdminDashboardAuth === false){
             return <Redirect to="/login"/>
         }
-        return (
-            <div>
-                <nav className="navbar navbar-light bg-light" style={{padding:"2%"}}>
-                    <a className="navbar-brand" href="#">Navbar</a>
-                    <Link to="/"> <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>this.OnClickLogout()}  type="submit">Log Out</button></Link>
-                </nav>
-                <TitleAdder />
-                <SubTitleAdder />
-                <PlaceAdder />
-                <DisplayRecords />
-            </div>
-
-        )
-
+        if(this.state.AddRecord){
+            return (
+                <div>
+                    <nav className="navbar navbar-light bg-light" style={{padding:"2%"}}>
+                        <a className="navbar-brand" href="#">Navbar</a>
+                        <Link to="/"> <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>this.OnClickLogout()}  type="submit">Log Out</button></Link>
+                    </nav>
+                    <div className="container-small">
+                    <button className="btn btn-primary" onClick={()=>this.displayAddRecord()} style={{margin:"2% 4%"}}>Add Records</button>
+                    <button className="btn btn-primary" onClick={()=>this.displayEditDisplayRecord()} style={{margin:"2% 4%"}}>Edit and Display Records</button>
+                    </div>
+                    <TitleAdder />
+                    <SubTitleAdder />
+                    <PlaceAdder />
+                </div>
+    
+            )
+        }
+        if(this.state.displayRecord){
+            return (
+                <div>
+                   <nav className="navbar navbar-light bg-light" style={{padding:"2%"}}>
+                        <a className="navbar-brand" href="#">Navbar</a>
+                        <Link to="/"> <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>this.OnClickLogout()}  type="submit">Log Out</button></Link>
+                    </nav>
+                    <div className="container-small">
+                    <button className="btn btn-primary" onClick={()=>this.displayAddRecord()} style={{margin:"2% 4%"}}>Add Records </button>
+                    <button className="btn btn-primary" onClick={()=>this.displayEditDisplayRecord()} style={{margin:"2% 4%"}}>Edit and Display Records</button>
+                    </div>
+                    <DisplayRecords />
+                </div>
+    
+            )
+        }
     }
 }

@@ -14,6 +14,7 @@ export default class App extends React.Component {
                     <Route path="/" exact component={Main} />
                     {/*<Route path="home" component={Home} />*/}
                     <Route path="/description" component={FullDescription} />
+                    <Route path="/description:Value" component={FullDescription} />
                     <Route path="/login" component={AdminLogin} />
                     <Route path="/edit:id" component={Modal} />
                 </Router>

@@ -44,7 +44,7 @@ export default class Feedback extends Component {
     render() {
         return (
             <>
-                <div className="FeedbackMain">
+                <div className="FeedbackMain" id="FeedbackHomePage">
                     <div className="FormBlock">
                         <h2>Feedback</h2>
                         <hr></hr>

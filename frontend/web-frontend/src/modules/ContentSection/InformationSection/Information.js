@@ -32,7 +32,7 @@ export default class Information extends Component {
     componentDidMount() {
         Axios.get("http://localhost:8000/place/getplace/")
             .then((res) => {
-                console.log(res)
+                console.log(res.data)
                 this.setState({
                     Data: res.data
                 })
@@ -40,7 +40,7 @@ export default class Information extends Component {
                 this.props.heigthFunction(clientHeight);
             })
             .catch(Err => console.log(Err));
-    }
+        }
     ChangeHeightFunction(value){
         this.props.heigthFunction(value);
     }
@@ -62,16 +62,21 @@ export default class Information extends Component {
                                     <div className="card-body">
                                         <h3 className="card-title InformationHeading" >{value.PlaceForTour}</h3>
                                         <hr></hr>
+                                        
+                                        <img  style={{height:"100%"}} className="col-12" src={"http://localhost:8000/place/getplaceImage/"+value.filename[0].filename} height="100px" width="100px"/>
+                                        <hr></hr>
+                                        <div  className="col-lg-12">
                                         <h6 className="card-subtitle mb-2 text-muted">{value.city}</h6>
                                         <p className="card-text paragraphInformation" >{value.PlaceTourExplaination.substring(0, 300)}</p>
                                         <Link to={{
-                                            pathname: '/description',
+                                            pathname: "/description:"+value._id,
                                             state: {
                                                 fromNotifications: value._id
                                             }
                                         }} className="card-link" style={{ textDecoration: "none", "color": "white" }}>
                                             <button className="btn  btn-outline-dark ">Read more</button>
                                         </Link>
+                                        </div>
                                     </div>
                                 </div>);
                             }

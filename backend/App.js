@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const cors = require("cors");
-
+var multer = require('multer')
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

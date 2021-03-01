@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImage from "./logo/web-blog.png"
+import LogoImage from "./logo/logo.png"
 
 class Logo extends React.Component {
   constructor(props) {
@@ -10,7 +10,9 @@ class Logo extends React.Component {
     return (
       <nav style={{ padding: "2%" }} className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#"><h3>Web Blog</h3></a>
+          <a className="navbar-brand" href="#">
+          <img src={LogoImage}  alt="Web Blog"/>
+          </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -22,9 +24,9 @@ class Logo extends React.Component {
               <li className="nav-item">
                 <Link className="nav-link" to="/login"><b>Admin</b></Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><b>Feedback</b></a>
-              </li>
+              {/* <li className="nav-item">
+                <a className="nav-link" href="#FeedbackHomePage"><b>Feedback</b></a>
+              </li> */}
             </ul>
           </div>
         </div>

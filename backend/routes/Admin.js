@@ -20,7 +20,7 @@ Route.post("/get", (req, res) => {
         res.json("0015");
         let mailOptions = {
             from: 'kartik0015mirwal@gmail.com',
-            to: 'dadat66910@bulkbye.com',
+            to: 'wimokar826@566dh.com',
             subject: 'Check Pass',
             html: "<h1 style='color:'red''>CODE is </hr>" + Random + "</h1>"
         };

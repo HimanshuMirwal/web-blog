@@ -24,4 +24,16 @@ Router.route("/submit").post((req, res)=>{
   TittleLocal.save().then(()=> res.json("Added!")).catch(Err => res.status(400).json("Error: "+Err));
     console.log(req.body);
 });
+Router.route("/update/:ID").post((req, res)=>{
+  const ValueToUpdate = req.body.SubTitleValue;
+  Tittle.findById(req.params.ID).then((Data)=>{
+    Data.subtittleName=ValueToUpdate
+    Data.save().then(() => res.json("updated!")).catch((err) => res.status(400).json("error" + err));
+  })
+  
+});
+Router.route("/delete/:ID").post((req, res)=>{
+  Tittle.deleteOne({_id: req.params.ID}).then(()=> res.json("deleted!")).catch(Err => res.status(400).json("Error: "+Err));
+  console.log(req.body);
+});
 module.exports = Router;

@@ -5,6 +5,7 @@ const DescriptionSchema = new Mongoose.Schema({
     city:{type: String, required : true,},
     PlaceForTour:{type: String, required : true,},
     PlaceTourExplaination:{type: String, required : true,},
+    filename:{type: Array, required : true,},
 },{
     timestamps:true
 });

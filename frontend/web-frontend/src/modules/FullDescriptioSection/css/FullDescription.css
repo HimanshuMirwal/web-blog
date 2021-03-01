@@ -34,3 +34,13 @@
 .myBtn:hover {
     background-color: #323232!important;
 }
+.thumbs-wrapper
+{
+    display: none;
+}
+.axis-vertical{
+    display: none;
+}
+.dot{
+    padding: 0.6%
+}
