@@ -9,26 +9,20 @@ export default class Content extends Component {
             HeightInformationDiv:"100%"
         }
 
-        this.GetSubTitleValue = this.GetSubTitleValue.bind(this)
         this.SetHeightInformationDiv = this.SetHeightInformationDiv.bind(this);
-    }
-    
-    GetSubTitleValue(value){
-        // console.log("i am from Content "+ value);
-        this.props.GetSubTitleValue(value);
     }
     SetHeightInformationDiv(value){
         this.setState({
             HeightInformationDiv:value
         })
-        console.log(value);
+        console.log("from Content"+value);
     }
     render(){
         return (
             <>
                 <div className="mainDiv">
-                   <Sidebar GetSubTitleValue={this.GetSubTitleValue} TitleValue={this.props.SendTitleValueFunction} HeightValueOfInformationDiv={this.state.HeightInformationDiv} />     
-                   <Information TitleValue={this.props.SendTitleValueFunction} SendSubTitleValue={this.props.SendSubTitleValue} heigthFunction={this.SetHeightInformationDiv}/>
+                   <Sidebar  TitleValue={this.props.SendTitleValueFunction} HeightValueOfInformationDiv={this.state.HeightInformationDiv} />     
+                   <Information  TitleValue={this.props.SendTitleValueFunction} SendSubTitleValue={this.props.SendSubTitleValue} heigthFunction={this.SetHeightInformationDiv}/>
                 </div>
             </>
         )

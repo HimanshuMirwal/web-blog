@@ -31,8 +31,8 @@ export default class TitleAdder extends Component {
     }
     render() {
         return (
-            <div>
-                <div style={{ width: "40%", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                <div style={{ width: "90%",  backgroundColor:"#212529", color:"#fff", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                    <h3>Add Title</h3>
                     <form action="" method="POST">
                         <div className="form-group">
                             <label>Subject-name (like tour-travels, cooking etc.)</label>
@@ -41,7 +41,6 @@ export default class TitleAdder extends Component {
                         <button type="button" onClick={()=>this.OnClickToAddTitleData()} className="btn btn-primary" style={{ margin: "2%" }}>Submit</button>
                     </form>
                 </div>
-            </div>
 
         )
 

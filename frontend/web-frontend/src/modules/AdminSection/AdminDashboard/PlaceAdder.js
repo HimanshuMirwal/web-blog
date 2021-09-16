@@ -14,8 +14,9 @@ export default class PlaceAdder extends Component {
             city: "",
             TourPlace: "",
             TourPlaceDescription: "",
-            selectedFile: null
-
+            selectedFile: null,
+            imageLinksArray: [],
+            imageCount: 3
         }
         this.onChangeSubTitle = this.onChangeSubTitle.bind(this);
         this.OnClickToAddTitleData = this.OnClickToAddTitleData.bind(this);
@@ -25,6 +26,8 @@ export default class PlaceAdder extends Component {
         this.OnChangeTourPlace = this.OnChangeTourPlace.bind(this);
         this.OnChangeTourPlaceDescription = this.OnChangeTourPlaceDescription.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.OnClickToRefreshData = this.OnClickToRefreshData.bind(this);
+        this.onChangeImageText = this.onChangeImageText.bind(this);
     }
     componentDidMount() {
         Axios.get("http://localhost:8000/tittle/gettitle/")
@@ -48,6 +51,43 @@ export default class PlaceAdder extends Component {
             })
             .catch(Err => console.log(Err));
     }
+
+    onChangeImageText(event, index) {
+        const data = event.target.value;
+        const imageArray = this.state.imageLinksArray;
+        imageArray[index] = data;
+        this.setState({
+            imageLinksArray: imageArray
+        })
+        document.getElementById("DisplayImage" + index).src = event.target.value;
+    }
+    OnClickToRefreshData() {
+        Axios.get("http://localhost:8000/tittle/gettitle/")
+            .then(
+                (result) => {
+                    this.setState({
+                        MainTitleArray: result.data
+                    });
+                    // console.log(result.data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+        Axios.get("http://localhost:8000/subtittle/getsubtitle/")
+            .then((res) => {
+                // console.log(res)
+                this.setState({
+                    SubTitleArray: res.data,
+                })
+            })
+            .catch(Err => console.log(Err));
+        this.setState({
+            imageLinksArray:[]
+        })
+        document.getElementById("titleDropdow").selectedIndex = "0"
+        document.getElementById("SubTitleDropdow").selectedIndex = "0"
+    }
     onChangeSubTitle(e) {
         const data = e.target.value;
         const arrayData = [];
@@ -68,40 +108,51 @@ export default class PlaceAdder extends Component {
         const city = this.state.city;
         const PlaceToTour = this.state.TourPlace;
         const TourPlaceDescription = this.state.TourPlaceDescription;
-        let count = 0;
-        for (var x = 0; x < this.state.selectedFile.length; x++) {
-            const Type = this.state.selectedFile[x].type.substring(0,5);
-            if(Type !== "image"){
-                count = 1
-            }
-        }
+        const imageLinksArray = this.state.imageLinksArray;
+        console.log(imageLinksArray);
+        let count = this.state.imageLinksArray.length;
 
+        const ImageArray = this.state.imageLinksArray;
+        const duplicateArray = ImageArray.reduce(function (acc, el, i, arr) {
+            if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
+        }, []);
+
+        const duplicateLength = duplicateArray.length;
         const data = new FormData()
-        for (var x = 0; x < this.state.selectedFile.length; x++) {
-            data.append('file', this.state.selectedFile[x])
+        for (var x = 0; x < this.state.imageLinksArray.length; x++) {
+            data.append('imageLinksArray', this.state.imageLinksArray[x])
         }
         data.append("TittleName", TitleName);
         data.append("state", SubTitleName);
         data.append("city", city);
         data.append("TourPlace", PlaceToTour);
         data.append("TourPlaceDescription", TourPlaceDescription);
-        if (count !== 1) {
-            if (city.length > 0 && PlaceToTour.length > 0 && TourPlaceDescription.length > 0) {
-                Axios.post("http://localhost:8000/place/add/",data)
-                .then(res => alert(res.data))
-                .catch(Err=>alert(Err));
-                this.setState({
-                    city:"",
-                    TourPlace:"",
-                    TourPlaceDescription:""
-                });
-                document.getElementById("FileToUpload").value=null;
+        if ( duplicateLength === 0){
+            console.log("duplicateArray"+duplicateArray.length)
+            console.log(count);
+            if (count === 6) {
+                if (city.length > 0 && PlaceToTour.length > 0 && TourPlaceDescription.length > 0) {
+                    Axios.post("http://localhost:8000/place/add/", data)
+                        .then(res => alert(res.data))
+                        .catch(Err => alert(Err));
+                    this.setState({
+                        city: "",
+                        TourPlace: "",
+                        TourPlaceDescription: "",
+                        imageLinksArray: [],
+                        selectArraySubTitle: [],
+                    });
+                    this.OnClickToRefreshData()
+                } else {
+                    alert("please Fill the data Correctely.");
+                }
             } else {
-                alert("please Fill the data Correctely.");
+                alert("Please insert The Image links .")
             }
         }else{
-            alert("Please Select The Images Only.")
+            alert("Duplicate image links are present.")
         }
+        
     }
     OnChangeCity(e) {
         const data = e.target.value;
@@ -141,12 +192,16 @@ export default class PlaceAdder extends Component {
     render() {
         return (
             <div>
-                <div style={{ width: "80%", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                <div style={{ width: "90%", background:"#212529",color:"#fff", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                    <div style={{ margin: "0% 0px 8% 0" }}>
+                        <h3 style={{ width: "20%", float: "left" }}>Description</h3>
+                        <button type="button" onClick={() => this.OnClickToRefreshData()} className="btn btn-primary" style={{ float: "right" }}>Refresh</button>
+                    </div>
                     <form method="POST">
                         <div className="form-group">
                             <label>Subject-name (like tour-travels, cooking etc.)</label>
-                            <select className="form-control" name="TittleName" onChange={(e) => { this.onChangeSubTitle(e); this.OnChangeSelectedTitle(e) }}>
-                                <option key="lklkm  qlkml">.......Click here to Choose......</option>
+                            <select className="form-control" id="titleDropdow" name="TittleName" onChange={(e) => { this.onChangeSubTitle(e); this.OnChangeSelectedTitle(e) }}>
+                                <option key="lklkm  qlkml" >.......Click here to Choose......</option>
                                 {
                                     this.state.MainTitleArray.map((res) => {
                                         return <option key={res.TittleName} value={res.TittleName}>{res.TittleName}</option>
@@ -154,7 +209,7 @@ export default class PlaceAdder extends Component {
                                 }
                             </select>
                             <label>Sub-title(like tour-travels=Haryana)</label>
-                            <select className="form-control" name="state" onChange={(e) => this.OnChangeSelectedSubTitle(e)} >
+                            <select className="form-control" id="SubTitleDropdow" name="state" onChange={(e) => this.OnChangeSelectedSubTitle(e)} >
                                 <option key="lklkm  qlkml">.......Click here to Choose......</option>
                                 {
                                     this.state.selectArraySubTitle.map((res) => {
@@ -167,10 +222,14 @@ export default class PlaceAdder extends Component {
                             <label>place-name</label>
                             <input type="text" name="TourPlace" value={this.state.TourPlace} onChange={(e) => this.OnChangeTourPlace(e)} className="form-control" />
                             <label>place-description</label>
-                            <textarea name="TourPlaceDescription" value={this.state.TourPlaceDescription} onChange={(e) => this.OnChangeTourPlaceDescription(e)} className="form-control" >
+                            <textarea rows="15" name="TourPlaceDescription" value={this.state.TourPlaceDescription} onChange={(e) => this.OnChangeTourPlaceDescription(e)} className="form-control" >
                             </textarea>
-                            <label>Images</label>
-                            <input type="file" id="FileToUpload" class="form-control" multiple onChange={this.onChangeHandler} />
+                            {/* <label>Images</label>
+                            <input type="file" id="FileToUpload" class="form-control" multiple onChange={this.onChangeHandler} /> */}
+                        </div>
+                        <div class="row" style={{ margin: "2% auto" }}>
+                            <h4 style={{ width: "80%", float: "left" }}>Images Section</h4>
+                            <ImageElement value={this.state.imageLinksArray} onChangeImageText={this.onChangeImageText} />
                         </div>
                         <button type="button" onClick={() => this.OnClickToAddTitleData()} className="btn btn-primary" style={{ margin: "2%" }}>Submit</button>
                     </form>
@@ -180,4 +239,15 @@ export default class PlaceAdder extends Component {
         )
 
     }
+}
+
+const ImageElement = function (props) {
+    console.log(props)
+    const TextImg = props.value.length;
+    return Array.apply(1, Array(6)).map(function (x, i) {
+        return <div class="row" key={i} style={{ margin: "2% auto" }}>
+            <input type="text" id={"TextImage" + i} value={TextImg===0?"":props.value[i]} onChange={(e) => props.onChangeImageText(e, i)} style={{ width: "50%", float: "left" }} className="form-control" placeholder={"insert image " + (i+1) + " link here"} />
+            <img src={TextImg===0?"":props.value[i]} id={"DisplayImage" + i} style={{ height: "100%", width: "50%", backgroundPosition: "auto", float: "right" }} className="form-control" alt="not inserted yet" />
+        </div>
+    })
 }

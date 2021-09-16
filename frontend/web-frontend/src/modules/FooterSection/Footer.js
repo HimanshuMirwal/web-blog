@@ -11,7 +11,7 @@ export default class Footer extends Component {
                     <b>&copy; All right reserved</b>
                     <hr></hr>
                     <br></br>
-                    <p>This website is developed by 0015 Technologies</p>
+                    <p>This website is developed by Himanshu</p>
                 </div>
             </div>
         )

@@ -7,10 +7,9 @@ export default class Sidebar extends Component {
         super(props);
         this.state = {
             dataSubTitle: []
-        }
-        this.SendValueOfSubTitle = this.SendValueOfSubTitle.bind(this);
+        }        
     }
-    componentDidMount() {
+    componentDidMount(props) {
         Axios.get("http://localhost:8000/subtittle/getsubtitle/")
             .then((res) => {
                 console.log(res)
@@ -19,11 +18,6 @@ export default class Sidebar extends Component {
                 })
             })
             .catch(Err => console.log(Err));
-    }
-
-    SendValueOfSubTitle(value) {
-        // console.log(value);
-        this.props.GetSubTitleValue(value);
     }
     render() {
         return (
@@ -36,8 +30,14 @@ export default class Sidebar extends Component {
                                 if (value.TittleName === this.props.TitleValue) {
                                     return <div key={value._id + value.subtittleName}>
                                         <li  className="LiSidebar">
-                                            <Link to="" className="LinkSidebar"  onClick={() => this.SendValueOfSubTitle(value.subtittleName)}>
-                                                {value.subtittleName}
+                                            <Link to={{
+                                                    pathname:"/subtitle/"+value.TittleName+"/"+value.subtittleName,
+                                                    TitleValue:value.TittleName,
+                                                    SubTittleValue:value.subtittleName
+                                                    }} 
+                                                    className="LinkSidebar"  
+                                                    >
+                                                    {value.subtittleName}
                                             </Link>
                                         </li>
                                         <hr />

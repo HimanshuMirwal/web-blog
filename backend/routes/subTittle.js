@@ -1,5 +1,7 @@
 const express = require('express');
 const Tittle = require("../models/SubtittleModel");
+const SubTittleWithDiscription = require("../models/SubTittleWithDescription");
+
 const app = express;
 const Router = app.Router();
 
@@ -33,7 +35,12 @@ Router.route("/update/:ID").post((req, res)=>{
   
 });
 Router.route("/delete/:ID").post((req, res)=>{
-  Tittle.deleteOne({_id: req.params.ID}).then(()=> res.json("deleted!")).catch(Err => res.status(400).json("Error: "+Err));
-  console.log(req.body);
+  const NameOfSubtitle = req.body.NameOfSubtitle;
+  SubTittleWithDiscription.deleteMany({subtittleName:NameOfSubtitle})
+  .then(()=>res.json("place also deleted."))
+  .catch(err=>res.status(400).json("Error:"+err));
+  Tittle.deleteOne({_id: req.params.ID})
+  .then(()=> res.json("deleted!"))
+  .catch(Err => res.status(400).json("Error: "+Err));
 });
 module.exports = Router;

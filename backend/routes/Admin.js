@@ -1,38 +1,42 @@
 const Route = require("express").Router();
 const nodemailer = require("nodemailer");
+const PasswordModel = require("../models/PasswordModel");
 const RandomFunctionCall = require("./CodeCheck");
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'kartik0015mirwal@gmail.com',
-        pass: 'kartik#123'
+        user: process.env.ADMIN_EMAIL,
+        pass: process.env.ADMIN_PASSWORD
     }
 });
-
 Route.post("/get", (req, res) => {
     const IDValue = req.body.ID;
     const PassValue = req.body.Pass;
     const Random = Math.floor(Math.random() * 1000);
     console.log(Random);
+    // return ;
     RandomFunctionCall.RanomNumberCheck(Random);
-
-    if (IDValue === "000001500000" && PassValue === "Web-Blog-Password") {
-        res.json("0015");
-        let mailOptions = {
-            from: 'kartik0015mirwal@gmail.com',
-            to: 'wimokar826@566dh.com',
-            subject: 'Check Pass',
-            html: "<h1 style='color:'red''>CODE is </hr>" + Random + "</h1>"
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
+    PasswordModel.findOne({ idAdmin: IDValue })
+        .then(valServer => {
+            console.log(valServer);
+            if (IDValue === valServer.idAdmin && PassValue === valServer.passAdmin) {
+                res.json("0015");
+                let mailOptions = {
+                    from: process.env.ADMIN_EMAIL,
+                    to: process.env.ADMIN_EMAIL_Second,
+                    subject: 'Check Pass',
+                    html: "<div style='background:#FFE194;height:400px;text-align:center;padding:10%'><h1 style='color:#FFB319'>Hello Admin</h1><hr style='color:#FFB319;font-weight:bolder'></hr><br></br><h3 style='color:#22577A'>Your Code is "+Random + "</h3></div>"
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
             } else {
-                console.log('Email sent: ' + info.response);
+                res.json("Error value donot match");
             }
-        });
-    }else{
-        res.json("Error");
-    }
+        }).catch(err=>res.json("Error value donot match"))
 });
 module.exports = Route;

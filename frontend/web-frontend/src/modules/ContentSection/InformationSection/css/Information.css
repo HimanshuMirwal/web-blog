@@ -5,12 +5,12 @@
     /* border: 1px solid green; */
     float: left;
     background-color:white ;
-    padding: 2%;
+    padding: 0 5%;
 }
 .paragraphInformation{
-    color: #6c757d!important;
+    color: #43474b!important;
     text-align: justify;
 }
 .InformationHeading{
-    color: #212529!important;;
+    color: #43474b!important;;
 }

@@ -12,7 +12,7 @@ export default class SubTitleAdder extends Component {
         this.onChangeSubTitle = this.onChangeSubTitle.bind(this);
         this.onChangeTitle= this.onChangeTitle.bind(this);
         this.OnClickToAddSubTitleData = this.OnClickToAddSubTitleData.bind(this);
-
+        this.OnClickToRefreshData = this.OnClickToRefreshData.bind(this);
     }
     componentDidMount() {
         Axios.get("http://localhost:8000/tittle/gettitle/")
@@ -28,7 +28,20 @@ export default class SubTitleAdder extends Component {
                 }
             )
     }
-    
+    OnClickToRefreshData() {
+        Axios.get("http://localhost:8000/tittle/gettitle/")
+            .then(
+                (result) => {
+                    this.setState({
+                        MainTitleArray: result.data
+                    });
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+            document.getElementById("TittleSelector").selectedIndex="0";
+    }
     onChangeSubTitle(e) {
         const data = e.target.value;
         this.setState({
@@ -42,7 +55,6 @@ export default class SubTitleAdder extends Component {
         })
     }
       OnClickToAddSubTitleData(){
-          alert("invoked")
             const Data = this.state.SubTitle;
             const DataLenght = Data.length;
             const TitleValue = this.state.MainSelectedData;
@@ -54,17 +66,22 @@ export default class SubTitleAdder extends Component {
             this.setState({
                 SubTitle:""
             })
+            document.getElementById("TittleSelector").selectedIndex="0"
       }
     render() {
         
         return (
             <div>
-                <div style={{ width: "60%", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                <div style={{ width: "90%", backgroundColor:"#212529", color:"#fff", margin: "5% auto", border: "1px solid", padding: "2%" }}>
+                <div style={{margin:"0% 0px 8% 0"}}>
+                <h2 style={{float:"left"}}>Sub-Title</h2>
+                <button type="button" onClick={()=>this.OnClickToRefreshData()} className="btn btn-primary" style={{ float:"right" }}>Refresh</button>
+                </div>
+                   <br/>
                     <form method="post">
-                        <div className="form-group">
-                            <h2>djbjkbsdk</h2>
-                            <label>Subject-name (like tour-travels, cooking etc.)</label>
-                            <select className="form-control"  onChange={(e)=>this.onChangeTitle(e)}>
+                        <div className="form-group" >
+                            <label >Subject-name (like tour-travels, cooking etc.)</label>
+                            <select className="form-control" id="TittleSelector" onChange={(e)=>this.onChangeTitle(e)}>
                                 <option key="lklkm  qlkml">.......Click here to Choose......</option>
                                 {
                                     this.state.MainTitleArray.map((res) => {

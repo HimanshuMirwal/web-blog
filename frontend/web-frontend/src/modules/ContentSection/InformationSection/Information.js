@@ -3,6 +3,8 @@ import "./css/Information.css";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
+import parse from 'html-react-parser'
+
 let lastHeight = $("#abc").height(); 
 let lastWidth = $("#abc").width(); 
 
@@ -44,30 +46,23 @@ export default class Information extends Component {
     ChangeHeightFunction(value){
         this.props.heigthFunction(value);
     }
+    
     render() {
         return (
             <>
-
                 <div className="mainInformation" id="abc">
-                    {/* {
-                        this.props.SendSubTitleValue + " " +
-                        this.props.TitleValue
-
-                    } */
-                    }
                     {
                         this.state.Data.map((value) => {
                             if (value.TittleName === this.props.TitleValue && value.subtittleName === this.props.SendSubTitleValue) {
                                 return (<div className="card" style={{ "width": "100%", "margin": "1% auto" }} key={value._id + "kqlwnklqnwl"}>
                                     <div className="card-body">
-                                        <h3 className="card-title InformationHeading" >{value.PlaceForTour}</h3>
+                                        <h2 className="card-title InformationHeading" >{value.PlaceForTour}</h2>
                                         <hr></hr>
-                                        
-                                        <img  style={{height:"100%"}} className="col-12" src={"http://localhost:8000/place/getplaceImage/"+value.filename[0].filename} height="100px" width="100px"/>
+                                        <img  style={{height:"100%"}} className="col-12" src={value.imageLinksArray[0]} height="100px" width="100px"/>
                                         <hr></hr>
                                         <div  className="col-lg-12">
-                                        <h6 className="card-subtitle mb-2 text-muted">{value.city}</h6>
-                                        <p className="card-text paragraphInformation" >{value.PlaceTourExplaination.substring(0, 300)}</p>
+                                        <h3 className="card-subtitle mb-2 text-muted">{value.city}</h3>
+                                        <p className="card-text paragraphInformation" >{parse(value.PlaceTourExplaination.substring(0, 300))}</p>
                                         <Link to={{
                                             pathname: "/description:"+value._id,
                                             state: {

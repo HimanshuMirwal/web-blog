@@ -8,7 +8,7 @@ class Logo extends React.Component {
   }
   render() {
     return (
-      <nav style={{ padding: "2%" }} className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav style={{ padding: " 2% 5% " }} className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
           <img src={LogoImage}  alt="Web Blog"/>
@@ -22,7 +22,7 @@ class Logo extends React.Component {
                 <Link className="nav-link active" aria-current="page" to="/"><b>Home</b></Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login"><b>Admin</b></Link>
+                <Link className="nav-link" to="/about"><b>about us</b></Link>
               </li>
               {/* <li className="nav-item">
                 <a className="nav-link" href="#FeedbackHomePage"><b>Feedback</b></a>

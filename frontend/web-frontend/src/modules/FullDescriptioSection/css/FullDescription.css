@@ -3,19 +3,20 @@
     height: auto;
     width: 100%;
     /* border: 1px solid red; */
-    padding: 3%;
+    padding: 5%;
 }
 .descriptionHeading{
-   color: #212529!important
+   color: #212529!important;
+
 }
 .descriptionParagraph{
-    color:#6c757d!important;
+    color:#43474b!important;
     text-align: justify;
     font-weight: 100;
     font-size: 20px;
 }
 .descriptionFirstPAragraph{
-    color:#6c757d!important
+    color:#43474b!important;
 }
 /*Floating Back-To-Top Button*/
 .myBtn {

@@ -3,20 +3,20 @@ import "./css/AdminLogin.css";
 import Footer from "../../FooterSection/Footer"
 import Axios from "axios";
 import AdminCode from "../AdminCode/AdminCode";
-import { Redirect } from 'react-router-dom';
 
 export default class AdminLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
             LoginID: "",
-            LoginPassword: ""
+            LoginPassword: "",
+            count:0
         }
         this.OnChangeLoginID = this.OnChangeLoginID.bind(this);
         this.OnChangeLoginPassword = this.OnChangeLoginPassword.bind(this);
         this.OnClickSubmitButton = this.OnClickSubmitButton.bind(this);
         this.HelperFunctionForAxios = this.HelperFunctionForAxios.bind(this);
- 
+        this.getPassToMail = this.getPassToMail.bind(this);
     }
     OnChangeLoginPassword(e) {
         const data = e.target.value;
@@ -32,6 +32,7 @@ export default class AdminLogin extends Component {
     }
     OnClickSubmitButton(e) {
         e.preventDefault();
+        console.log(e)
         const IDLen = this.state.LoginID.length;
         const PassLen = this.state.LoginPassword.length;
         const ID = this.state.LoginID;
@@ -44,10 +45,13 @@ export default class AdminLogin extends Component {
         }
         if (IDLen < 9 && PassLen < 9) {
             alert("Error");
+            const LocalCount = this.state.count+1;
+            this.setState({
+                count: LocalCount
+            })
         } else {
             Axios.post("http://localhost:8000/admin/get/", Data)
                 .then((res) => {
-                    // console.log(res);
                     this.HelperFunctionForAxios(res);
                 })
                 .catch(Err => console.log(Err));
@@ -61,15 +65,30 @@ export default class AdminLogin extends Component {
             });
         } 
         else {
-            alert(res.data + " ID or Password incorrect.")
+            // alert(res.data + " ID or Password incorrect.")
+            document.getElementById("ttt").style="backgorund:red"
+
+            const LocalCount = this.state.count+1;
             this.setState({
-                auth: false
+                auth: false,
+                count: LocalCount
             })
         }
+    }
+    getPassToMail(){
+        alert("Login Credentials are send to Admin mail.")
+        Axios.get("http://localhost:8000/Password/sendpasswordtome")
+        .then((res) => {
+            console.log("Login Credentials are send to Admin mail.")
+        })
+        .catch(Err => console.log(Err));
     }
     render() {
         if (this.state.auth === true) {
             return <AdminCode />
+        }
+        if(this.state.count > 3){
+            this.getPassToMail()
         }
         return (
             <>
@@ -90,8 +109,7 @@ export default class AdminLogin extends Component {
                                     <input type="password" onChange={(e) => this.OnChangeLoginID(e)} className="form-control" />
                                 </div>
                                 <button type="submit" onClick={(e) => this.OnClickSubmitButton(e)} className="btn btn-primary" style={{ marginTop: "5%" }}>Login</button>
-                                <div className="form-group" style={{ marginTop: "5%" }}>
-                                    <label><h5 style={{ color: "red" }}>A Code Will be send to your Email.<hr /></h5></label>
+                                <div className="form-group" style={{ marginTop: "5%" }}>                                    
                                 </div>
                             </form>
                         </div>
